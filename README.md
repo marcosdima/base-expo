@@ -4,17 +4,15 @@ Canonical starting point for a new application on top of `alambre`. This is a **
 
 ## What is wired in
 
-- Expo SDK 54 (managed, no prebuild committed; run native features with `npx expo run:android`).
+- Expo SDK 57 (managed, no prebuild committed; run native features with `npx expo run:android`).
+- `@some-alambre/ui` tactile design tokens and accessible mobile components (`AppButton`, `AppCard`, `AppTextInput`, `AppBadge`, `ToggleLightDark`, `ConfirmDialog`).
 - `alambre` capabilities and behaviors, connected through a `Storage` adapter over AsyncStorage:
-  - `createConfigProvider` (`src/providers/config.ts`)
-  - `createLightDarkProvider` (`src/providers/theme.ts`)
-  - `createLangProvider` (es/en, `src/providers/lang.tsx`)
+  - `createConfig` (`src/providers/config.ts`)
+  - `createLightDark` (`src/providers/theme.ts`)
+  - `createLang` (es/en, `src/providers/lang.tsx`)
   - `NavigatorProvider` + `ToastProvider` with an app-owned toast body (`src/providers/toast.tsx`)
-- Navigator chrome, light/dark toggle and small presentational components live in the app (see `docs/ui.md`): `AppNavigatorBody`, `ToggleLightDark`, `AppButton`, `AppTitle`.
 - Subpage navigation example: `navigate('home', { subpage: 'details' })`.
 - Validation setup: ESLint, `tsc`, Vitest with one example test (`tests/storage.test.ts`).
-
-Add persisted collections of typed records with `createCollectionProvider` from `alambre` (see `apps/colguetti/src/items/items-context.tsx` for the adapter pattern).
 
 ## Start a new app from this template
 
@@ -28,7 +26,7 @@ The canonical standalone copy is published as a GitHub template repository (**`m
 
 ### Staying connected to alambre
 
-The template depends on the **published** `alambre` package from the npm registry (`"alambre": "1.0.4"`, pinned to the exact version at export time — the public contract is still pre-baseline, see `docs/architecture.md` §9). The app is independent from the alambre repository; updates flow through npm/pnpm:
+The template depends on the **published** `alambre` package from the npm registry (pinned to the exact version at export time — the public contract is still pre-baseline, see `docs/framework/architecture.md` §9). The app is independent from the alambre repository; updates flow through npm/pnpm:
 
 ```bash
 pnpm add alambre@latest     # or: npm install alambre@latest
@@ -45,4 +43,4 @@ pnpm --filter @alambre/base-template typecheck
 pnpm --filter @alambre/base-template test
 ```
 
-The standalone template repo is regenerated from this folder with `bash scripts/export-template.sh` (run from the monorepo root).
+The standalone template repo is regenerated from this folder with `bash scripts/export-template.sh` (run from the monorepo root). The script verifies the exported app against the `alambre` version on npm and stops with publishing instructions if the registry copy is stale, so a fresh `npm publish` of `alambre` is required before the template can bootstrap working apps.
